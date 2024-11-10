@@ -1,0 +1,54 @@
+JWT TOKEN/USER REGISTRATION AND LOGIN CREATION
+.5. In order to actually grant an access token, we need to have a set of credentials 
+1. So, the first thing we need to do is create a new user; then we can store their username and their password
+2. We can then use their credentials (username/password) to log in and access the access token for that user:
+3. Navigate to backend/api and create a file named "serializers.py" (SEE COMMENTS IN backend/api/serializers.py)
+4. Once user is created and returned in serializers.py (SEE COMMENTS), go into backend/api/views.py
+5. After views.py is complete (see comments), navigate to and open backend/api/urls.py (SEE COMMENTS)
+6. After linking the routes and views in urls.py, start making migrations on our database:
+a. Whenever you start a new django project, or make significant changes that involve the data model, you need to make and run migrations
+7. First: python manage.py makemigrations, which will create the file that specifies the make migrations that need to be performed 
+8. So that's what we're going to do to start, and it will probably say that we don't have any migrations
+9. Then once you've made the migrations, you have to actually migrate them, so two steps: make migrations, and migrating
+10. The way you apply them is by using the migrate command: python manage.py migrate
+11. It will then migrate, making changes; it also provisions the database so that it has the correct tables and everything set up
+12. So whenever you set up a new database, and you want to do those same steps again, you provision the new database to run our application
+13. To start the application: python manage.py runserver - the server starts, and gives you URL it's running on
+14. We get a 404 error because we haven't defined a path to the route '', so input localhost:8000/api/user/register/ for the register route
+15. This presents an HTML form, which allows the user to pass a username (ttawsirhc) and a password (password) and create a new user
+a. You should get a 201 response with a JSON object that shows id and username, but not password
+16. Now go to the route that has the API token (/api/token/), and it will display a page that asks us to pass our credentials
+17. Once we pass our credentials, it will give us our access token, so type in credentials to get token
+a. This is what our front end would store; then it uses this access token with every request sent in order to actually access the different protected routes
+18. After receiving an access and refresh token, we can copy the refresh token into the route (/api/token/refresh/) for a refresh token
+19. Now we want to start writing routes for authenticated users, such as creating notes, delete notes, etc.
+20. See setup-authenticated-users.txt
+
+JWT TOKENS AND HOW THEY WORK! (We will implement these in the REST framework later)
+1. JWT stands for JSON Web Tokens, and acts as permissions or authentication every time we access a website
+2. The idea is we have a frontend, and the frontend is separate from our backend
+3. So every time we access and/or make a request to the backend, the backend needs to know who we are and what we have permssions to do
+4. So we include a token, along with our request to the backend, and that token can be decoded and understood
+a. This decoding represents a certain set of permissions;
+b. For example: I may sign in as my user ttawsirhc (and password?), and that user may be granted a token
+c. That token will be used with all future requests to tell the backend who's interacting with it and their permissions
+d. We don't have to write this difficult code, Django will generate it for us
+5. The basic flow goes like this:
+a. We have a frontend, and the frontend is communicating with the backend through a request
+b. Frontend sends a request to the backend, then we receive a response from the backend
+c. So when we access a frontend, the first thing we need to do is get access to a JWT token so that we can interact with the backend to perform operations
+d. So we pass some credentials to our frontend (e.g., username and password)
+e. The frontend then takes those credentials and sends them to the backend, and ask to be granted a token based on these credentials
+f. If the username (password?) is correct, we will be granted two tokens: an access token and a refresh token
+g. The access token is what we will use for all of our requests, and the refresh token is used to refresh the access token
+h. The frontend will store the access token and the refresh token so that we can continue to use them in future requests
+i. We don't have to constantly sign in to the application
+6. If we the access token expires (e.g., after 30 minutes), it is no longer valid
+7. When this happens, the frontend will simply submit the refresh token to a specific route on the backend
+8. If that refresh token is valid, a new access token will be sent back to us, we'll store that token and continue using it
+9. The reason we do that is if the access token is leaked, we want the access token to expire after a certain time, as a security measure
+a. That way, it can't be used permanently and give someone else access to our account 
+b. So the concept is: expire the token relatively quickly and we can keep refreshing it
+c. Then after our refresh token expires, we need to actually sign back into the website altogether to get a new set of refresh and access tokens 
+d. There's obviously more to this but that's the basic idea behind JWT token authentication 
+e. That's what we're going to implement above - we'll learn more about it as we go through this example

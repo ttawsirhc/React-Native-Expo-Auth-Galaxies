@@ -1,0 +1,247 @@
+GIT SETUP FOR SOFTWARE PROJECTS:
+
+THEORY
+NOTE: .git is a HIDDEN folder in the root directory (?) of the project. To delete it, you need to show hidden files in the main folder
+
+MAIN VS. MASTER
+GitHub recently shifted its default branch name from master to main as part of an industry-wide effort to use more inclusive terminology.
+However, older versions of Git or some local environments still default to master when creating new branches if not explicitly specified.
+
+.NET MVC specific: for the repository ownership directory error below:
+-Git detects that the ownership of the repository directory (MvcMovie in this case) doesn't match the current user.
+-This warning from  Git’s "safe directory" feature is a security measure to prevent unauthorized code from running on your machine.
+-You can resolve this issue by adding the repository directory as a "safe directory." (shown in the example below)
+-The following line(s) will be added (in Windows) to C:\Users\ttawsirhc\gitconfig:
+--[safe] directory = C:/Users/ttaws/apps/dotnet/MvcMovie
+
+PRACTICE: Step-by-Step Process:
+CREATE A GITHUB REPOSITORY
+1. Log in to GitHub: Go to https://github.com and log in.
+2. Create a New Repository: Click on the "+" icon at the top-right corner and select "New repository".
+3. Give your repository a name (it’s often best to match your project name).
+A. Optionally, add a description for your project.
+4. Choose "Public" or "Private" visibility based on your preference.
+5. DO NOT initialize the repository with a README, .gitignore, or license file, as you already have a local project.
+6. Click "Create repository".
+7. GitHub will generate a URL for your repository (e.g., https://github.com/yourusername/your-repo-name.git).
+A. Copy this URL; you’ll need it soon.
+8. NOTE!: After creating the repository, if you DID NOT initialize the repository above, the following will appear:
+Quick setup — if you’ve done this kind of thing before
+or
+Get started by creating a new file or uploading an existing file. We recommend every repository include a README, LICENSE, and .gitignore.
+…or create a new repository on the command line
+echo "# React-Native-Expo-Auth-Galaxies" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/ttawsirhc/React-Native-Expo-Auth-Galaxies.git
+git push -u origin main
+…or push an existing repository from the command line
+git remote add origin https://github.com/ttawsirhc/React-Native-Expo-Auth-Galaxies.git
+git branch -M main
+git push -u origin main
+
+
+CREATE AND CONFIGURE GIT FOR THE LOCAL DIRECTORY
+8. In a terminal, Navigate to your project folder
+9. Initialize Git in your local project: git init
+B. Add all existing files to the initial commit: git add .
+9. Commit the files: git commit -m "Initial commit"
+10. In your terminal (still in the project directory), add the GitHub repository URL as the origin remote:
+A. git remote add origin [copy and paste the appropriate URL from the <> code button in the github repository]
+11. Verify the remote was added by running: git remote -v
+
+
+
+CHATGPT:
+Here's a step-by-step guide to help you move your local Laravel and Vue project onto a new GitHub repository, starting from scratch. This guide assumes you already have a local Git repository for your project. If you don't, we’ll cover that as well.
+Step 1: Create a GitHub Repository
+
+    Log in to GitHub: Go to https://github.com and log in.
+
+    Create a New Repository:
+        Click on the "+" icon at the top-right corner and select "New repository".
+        Give your repository a name (it’s often best to match your project name).
+        Optionally, add a description for your project.
+        Choose "Public" or "Private" visibility based on your preference.
+        Do not initialize the repository with a README, .gitignore, or license file, as you already have a local project.
+
+    Click "Create repository".
+
+    GitHub will generate a URL for your repository (e.g., https://github.com/yourusername/your-repo-name.git). Copy this URL; you’ll need it soon.
+
+Step 2: Initialize Git in Your Local Project (If Not Already Initialized)
+
+If you haven’t initialized Git in your local project, follow these steps:
+
+    Open a terminal or command prompt.
+    Navigate to your project folder:
+
+cd /path/to/your/project
+
+Initialize Git in your project folder:
+
+git init
+
+Add all existing files to the initial commit:
+
+git add .
+
+Commit the files:
+
+    git commit -m "Initial commit"
+
+Step 3: Add the Remote GitHub Repository
+
+    In your terminal (still in the project directory), add the GitHub repository URL as the origin remote:
+
+git remote add origin https://github.com/yourusername/your-repo-name.git
+
+Verify the remote was added by running:
+
+    git remote -v
+
+    You should see the origin pointing to your GitHub repository URL.
+
+Step 4: Push Local Repository to GitHub
+
+    To push your code to GitHub, run the following command:
+
+git push -u origin main
+
+    If your default branch is not named main (e.g., master), replace main with your actual branch name.
+    If you encounter an error saying the branch doesn’t exist on GitHub, you may need to create it. GitHub usually creates it automatically with this command, but if not, try:
+
+        git push -u origin HEAD
+
+Step 5: Handle Common Git Errors
+
+If you encounter errors, here are solutions to common ones:
+1. Error: fatal: remote origin already exists
+
+This error indicates there’s already an existing origin remote in your repository. To fix this:
+
+git remote remove origin
+git remote add origin https://github.com/yourusername/your-repo-name.git
+
+2. Error: src refspec main does not match any
+
+This usually happens if there’s no main branch (or default branch) in your repository yet. To fix it:
+
+git checkout -b main
+git push -u origin main
+
+3. Error: failed to push some refs...
+
+If you see this error, it usually means there’s already a commit on the remote branch that’s not in your local branch. Fix this by pulling first, then pushing:
+
+git pull origin main --rebase
+git push origin main
+
+Step 6: Verify Your Code on GitHub
+
+    Go to your GitHub repository page (https://github.com/yourusername/your-repo-name).
+    Refresh the page to see if your files have appeared.
+
+Step 7: Set Up .gitignore for Laravel and Vue (if not already set up)
+
+To avoid pushing unnecessary files (like environment configs, vendor packages, and node modules), set up a .gitignore file.
+
+    In your project root directory, create or open the .gitignore file.
+
+    Add the following standard entries for Laravel and Vue:
+
+# Laravel
+/vendor/
+/node_modules/
+.env
+
+# Vue
+.env.local
+.env.*.local
+dist/
+
+If you add the .gitignore after some files have already been committed, remove those files from Git tracking:
+
+git rm -r --cached vendor/
+git rm -r --cached node_modules/
+
+Commit the .gitignore changes:
+
+    git add .gitignore
+    git commit -m "Add .gitignore"
+    git push origin main
+
+Step 8: Update Regularly
+
+To keep your GitHub repository in sync with your local changes, use the following commands regularly:
+
+    Stage and commit your changes:
+
+git add .
+git commit -m "Describe your changes"
+
+Push to GitHub:
+
+    git push origin main
+
+This should get your project onto GitHub and resolve any issues you might face along the way. Let me know if you encounter any specific errors!
+
+
+
+GEMINI
+Here's a step-by-step guide to push your Laravel and Vue project to a remote repository on GitHub:
+
+Prerequisites:
+
+    A GitHub account (Create one for free if you don't have one: https://github.com/join)
+    Git installed on your local machine (You can download it from https://git-scm.com/downloads)
+
+Steps:
+
+    Initialize a Git repository:
+        Open your terminal and navigate to your Laravel project's root directory.
+        Run the command git init to initialize a Git repository in your project. This creates a hidden .git folder that tracks changes to your code.
+
+    Create a remote repository on GitHub:
+        Go to GitHub (https://github.com/) and log in to your account.
+        Click on the "New repository" button.
+        Give your repository a name and (optionally) a description.
+        Choose a public or private repository depending on your needs.
+        Click "Create repository".
+        This will create a new empty repository on GitHub. You'll see a URL like https://github.com/<your_username>/<repository_name>.git.
+
+    Link your local repository to the remote repository:
+        In your terminal, run the command git remote add origin <remote_repository_url>. Replace <remote_repository_url> with the actual URL you copied from GitHub in step 2. This tells Git about the remote repository you want to push your code to.
+
+    Add and commit your changes:
+        Use git add <filename> to add specific files to the staging area (where files are prepared for committing). You can add all files with git add ..
+        Run git status to see which files are staged and which are not.
+        Use git commit -m "Your commit message" to create a commit with a descriptive message explaining the changes you're pushing.
+
+    Push your code to GitHub:
+        Finally, run git push origin main to push your local commits to the main branch of your remote repository on GitHub.
+
+Troubleshooting Errors:
+
+If you encounter errors during the push, some common reasons might be:
+
+    Untracked files: If you have new files in your project that haven't been added to Git, add them using git add <filename>.
+    Uncommitted changes: Make sure you've committed your local changes before pushing.
+    Incorrect remote URL: Double-check the URL you copied from GitHub and ensure it's correct.
+
+Additional Notes:
+
+    You can check the progress of your push by adding the -v flag to the command: git push -v origin main.
+    Once the push is complete, you can access your code on GitHub at the provided URL.
+    Laravel projects might have a .gitignore file that specifies files to exclude from version control. Make sure it's not excluding essential files.
+
+Further Resources:
+
+    Git documentation: https://git-scm.com/doc
+    Setting up Git on GitHub: https://docs.github.com/en/get-started/getting-started-with-git/set-up-git
+
+By following these steps, you should be able to successfully push your Laravel and Vue project to a remote repository on GitHub.
+
+

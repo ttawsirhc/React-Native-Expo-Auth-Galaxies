@@ -1,0 +1,46 @@
+"""
+INSTALL AND RUN EXPO
+1. npx create-expo-app [events-app]
+2. cd [events-app]
+3. npx expo start
+
+NOTE: Expo documentation is found at docs.expo.dev
+
+how do I update expo to the latest version from the command line
+Copilot
+Sent by Copilot:
+Certainly! To update Expo to the latest version from the command line, follow these steps:
+
+Upgrade Expo CLI:
+Open your terminal or command prompt.
+Run the following command to update the Expo CLI globally:
+npm install -g expo-cli
+
+If you’re using a Mac, you might need to run the command with sudo:
+sudo npm install -g expo-cli
+
+Upgrade Your Expo SDK:
+Once you have the latest Expo CLI, navigate to your project directory (where your package.json is located).
+To upgrade the Expo SDK within your project, run one of the following commands:
+To install the latest SDK version:
+npm install expo@latest
+
+To install a specific SDK version (e.g., SDK 51):
+npm install expo@51
+
+Alternatively, you can use Yarn:
+yarn add expo@latest
+or
+yarn add expo@51
+
+Upgrade Dependencies:
+After upgrading the Expo SDK, make sure to update all other dependencies in your project to match the installed SDK version:
+npx expo install --fix
+
+Read the Release Notes:
+Check the SDK changelogs for the version you’ve upgraded to. They contain important information about breaking changes, deprecations, and other updates that may affect your app.
+Remember to test your app thoroughly after upgrading to ensure everything works as expected. Happy coding! 🚀
+
+For more details, you can also refer to the official Expo documentation. 😊 Learn more about updating Expo SDK if you’re curious! 📚
+
+"""

@@ -1,0 +1,96 @@
+"""
+CREATE THE VIRTUAL ENVIRONMENT (Backend Setup/Installation)
+.5. Copy the GitHub repository from https://github.com/techwithtim/Django-React-Full-Stack-App
+1. Create the root directory (e.g., goalsdrbackend)
+2. Navigate into that directory and/or open VS Code to that directory
+3. Create the virtual environment to install various python packages:
+a. NOTE: for Linux, if not already installed: sudo apt install python3.10-venv
+b. For linux/mac: python3 -m venv (.?)env
+c. For windows: python -m venv .env (possibly python -m venv .env) - this creates a virtual environment directory
+4. To activate the new virtual environment:
+a. For linux/mac: source env/bin/activate
+b. For windows: .env/Scripts/activate (possibly (.)env/Scripts/activate.bat)
+5. If the activation is correct we should see a prefix before the terminal line
+6. To deactivate the virtual environment, simply type "deactivate"
+
+INSTALL DJANGO DEPENDENCIES INSIDE THE VIRTUAL ENVIRONMENT
+1. Create and activate the virtual environment using the commands above
+2. Create a new file called requirements.txt
+3. Paste here all of the requirements/dependencies (Python packages) that we need to install in our environment, including:
+
+asgiref
+Django
+django-cors-headers 
+djangorestframework
+djangorestframework-simplejwt
+PyJWT
+pytz
+sqlparse
+psycopg2-binary # for working with a postgres sql database 
+python-dotenv # for loading in environment variables
+
+a. Note Django and django-cors-headers - allows to fix the cross origin request issue
+b. djangorestframework-simplejwt for handling our JWT authentication
+4. To install the above: pip install -r requirements.txt 
+a. NOTE: Make sure that this is in the activated virtual environment!
+
+CREATE A NEW DJANGO PROJECT
+1. Type into command line: django-admin startproject [goalsdrbackend]
+2. Navigate into the newly created directory, and make a new django app
+a. Apps are where we write our own custom views and custom code, we can have multiple apps for different site objectives
+b. NOTE: the redundant directory (e.g., backend/backend) is kind of the main directory where we have some settings
+c. We link different applications here, but this directory does not have a lot of custom Django code
+d. We write our custom Django code in an app 
+e. and we can have multiple different apps for different types of things we're doing to organize logic out
+f. maybe we have an app for authentication for a certain component of our application 
+3. To create the new (single) app type: python manage.py startapp [api] - this makes a new directory
+a. that will make a new directory for us called API
+
+SET UP SETTINGS.PY
+1. Open backend/backend/settings.py:
+a. CAREFULLY go throught and update the settings file; missing details could mess up the project
+b. If there are errors, just copy the settings.py file from the GitHub repository 
+2. Update modules to import at the top of the file:
+a. We will call the function load_dotenv()
+b. We'll see why we need these imports in a second
+c. But importing and loading dotenv loads an environment variable file for our story 
+d. So we can use that for having credentials for our database and other things that we need:
+
+from pathlib import Path
+from datetime import timedelta
+from dotenv import load_dotenv
+import os
+# load this function from above - this will load an environment file for having credentials for our database and others we need
+load_dotenv()
+
+3. Scroll down to ALLOWED_HOSTS, add an asterisk inside quotes (a string) in the array (e.g., ALLOWED_HOSTS["*"])
+a. This allows any different hosts to host our django application (to avoid getting an error later when we deploy)
+4. Copy in some configurations, below, that we need related to our JWT tokens (can copy from the GitHub clone):
+a. The below specifies the default authentication classes and the default permission classes to work with JWT tokens;
+b. The next section specifies a lifetime for our JWT tokens so ACCESS_TOKEN expires in 30 minutes, REFRESH_TOKEN in one day:
+c. SEE ALSO, comments in backend/backend/settings.py
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
+5. Scroll down to INSTALLED_APPS, add the following apps:
+    'api',
+    'rest_framework',
+    'corsheaders', # preemtively address the cors issue, so there is no cross origin error
+6. Scroll down to MIDDLEWARE and add the middleware for cors: 'corsheaders.middleware.CorsMiddleware',
+7. Scroll to the very bottom of the file and type in:
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+8. OPTIONAL: Move requirements.txt and place it inside of the backend directory, but leave the .env file outside of the backend directory
+9. Move to the file setup-jwt-tokens to set up users, and continue!
+"""

@@ -1,0 +1,17 @@
+"""
+STEPS TO SET UP AN ENVIRONMENT WITH A REACT NATIVE FRONTEND
+
+1. Setting up React Native frontend
+  a. Install Node.js/NPM, if not already installed (e.g., node/npm --version)
+  b. Install React Native CLI (globally): npm install -g react-native-cli
+  c. Create a new React Native project: react-native init [MyApp]
+2. Connect React Native to Django Backend: 
+  a. Make API requests to Django backend (e.g., axios or fetch)
+  b. Update the API URLs in your React Native components to point to your Django endpoints
+3. Running Your Environment:
+  a. Start your Django development server: python manage.py runserver
+  b. Start your React Native app:
+    i. cd MyApp
+    ii. react-native run-android  # For Android
+    iii. react-native run-ios      # For iOS
+"""

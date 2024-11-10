@@ -1,0 +1,28 @@
+CREATE CONTENT FOR AUTHENTICATED USERS
+1. Now we want to start writing routes for authenticated users (using the tokens), such as creating notes, delete notes, etc.
+a. This needs to be understood to connect data to authenticated users
+2. Create a model within /backend/api/models.py (SEE COMMENTS; the model will be for the note in tech/tim)
+3. Once the model is created (above), we then need to create a serializer in /goalsdrbackend/api/serializers.py (SEE COMMENTS)
+4. Once the serializer and the model are created (above), we then need to create a view/views in /goalsdrbackend/api/views.py (SEE COMMENTS)
+5. Once the views are created (for generic views: "Notes" in tech/tim), now that we have these views, we need to set up URLs for them
+a. BUT this time, we're going to set up the URLs in the API file
+b. So make a new file under goalsdrbackend/goalsdrbackend/api/ called urls.py (SEE COMMENTS)
+6. Once goalsdrbackend/api/urls.py is done: we need to do is link our URLs from our main URLs file into this file
+a. So go into goalsdrbackend/urls.py (in the backend folder) and ... (SEE COMMENTS)
+7. That should wrap up the backend code, but you want to check if it's working:
+8. BUT before we do that, we want to make a migration to the database, because we've made a major change to the data model
+a. So: python manage.py makemigrations (to make the migration that creates the model Note)
+b. We now need to migrate: python manage.py migrate
+9. Then run python manage.py runserver
+10. Go to http://localhost:8000/api/token/
+a. Pass in credentials to get a token, and copy the provided access token
+11. Then go to http://localhost:8000/api/notes/
+a. You will get an error saying that authentication credentials were not provided
+b. This is actually good - it means it's working properly - we didn't actually pass the token when we sent the request to this route to view notes
+c. We're not actually going to be able to pass that token without doing some things that are a bit more advanced
+d. So we're going to write the frontend, and we'll see in the front end how to pass that token, and are actually able to create the notes
+e. For now, we just have to trust that it does work
+f. If we want to test it out, remove authentication, so go to goalsdrbackend/api/views.py
+g. In class NoteListCreate, update to include the following line: permission_classes = [AllowAny] (change IsAuthenticated to Allow Any)
+h. BUT you won't have a user because wouldn't be passing the correct access token
+12. So that wraps up the backend, now we will go over and write the frontend (see setup-react-app.txt)
